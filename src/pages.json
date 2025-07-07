@@ -3,14 +3,49 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "DIO记"
+			}
+		},
+		{
+			"path": "pages/publish/index",
+			"style": {
+				"navigationBarTitleText": "发布"
+			}
+		},
+		{
+			"path": "pages/profile/index",
+			"style": {
+				"navigationBarTitleText": "我的"
 			}
 		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
+		"navigationBarTitleText": "DIO记",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#3cc51f",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/zhuye.png",
+				"selectedIconPath": "static/zhuye-active.png",
+			},
+			{
+				"pagePath": "pages/publish/index",
+				"iconPath": "static/fabu.png",
+				"selectedIconPath": "static/fabu.png",
+			},
+			{
+				"pagePath": "pages/profile/index",
+				"iconPath": "static/wode.png",
+				"selectedIconPath": "static/wode-active.png",
+			}
+		]
 	}
 }
