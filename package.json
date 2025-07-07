@@ -2,11 +2,19 @@
   "name": "dio-note-api",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "express": "^4.18.2",
+    "sequelize": "^6.32.1",
+    "mysql2": "^3.6.0",
+    "bcrypt": "^5.1.0",
+    "jsonwebtoken": "^9.0.0"
+  }
 }
