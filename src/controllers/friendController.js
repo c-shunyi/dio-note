@@ -6,12 +6,12 @@ export const bindFriend = async (req, res, next) => {
     const { inviteCode } = req.body;
     const user = await User.findByPk(req.userId);
     console.log(user);
-    if (!user) return res.json(fail('404', '用户不存在'));
-    if (user.friendId) return res.json(fail('400', '你已绑定dio友'));
+    if (!user) return res.json(fail('用户不存在'));
+    if (user.friendId) return res.json(fail('你已绑定dio友'));
     
     const friend = await User.findOne({ where: { inviteCode } });
-    if (!friend || friend.id === user.id) return res.json(fail('400', '无效的邀请码'));
-    if (friend.friendId) return res.json(fail('400', '对方已绑定dio友'));
+    if (!friend || friend.id === user.id) return res.json(fail('无效的邀请码'));
+    if (friend.friendId) return res.json(fail('对方已绑定dio友'));
     
     // 互相绑定
     user.friendId = friend.id;

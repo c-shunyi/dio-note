@@ -25,7 +25,7 @@ export function success(data = null, msg = 'success') {
  * @param {any} data 附加数据
  * @returns {object}
  */
-export function fail( code = '1', msg = 'fail', data = null) {
+export function fail(msg = 'fail', code = '1',  data = null) {
   return {
     code,
     msg,
