@@ -40,102 +40,110 @@
   </view>
 </template>
 
-<script>
+<script setup>
+import { ref, reactive } from 'vue'
 import { login, register, getUserProfile, bindFriend } from '@/api/user'
+import { onShow } from '@dcloudio/uni-app'
 
-export default {
-  data() {
-    return {
-      isLoggedIn: false,
-      formData: {
-        username: '',
-        password: ''
-      },
-      userInfo: {},
-      friendInviteCode: ''
-    }
-  },
-  onShow() {
-    this.checkLoginStatus()
-  },
-  methods: {
-    checkLoginStatus() {
-      const token = uni.getStorageSync('token')
-      if (token) {
-        this.isLoggedIn = true
-        this.getUserInfo()
-      } else {
-        this.isLoggedIn = false
-      }
-    },
-    async getUserInfo() {
-      try {
-        const res = await getUserProfile()
-        this.userInfo = res.data
-      } catch (error) {
-        uni.showToast({
-          title: '获取用户信息失败',
-          icon: 'none'
-        })
-      }
-    },
-    async handleLogin() {
-      try {
-        const res = await login(this.formData)
-        uni.setStorageSync('token', res.data.token)
-        this.userInfo = res.data.user
-        this.isLoggedIn = true
-        uni.showToast({
-          title: '登录成功',
-          icon: 'success'
-        })
-      } catch (error) {
-        uni.showToast({
-          title: error.message || '登录失败',
-          icon: 'none'
-        })
-      }
-    },
-    async handleRegister() {
-      try {
-        const res = await register(this.formData)
-        uni.showToast({
-          title: '注册成功，请登录',
-          icon: 'success'
-        })
-      } catch (error) {
-        uni.showToast({
-          title: error.message || '注册失败',
-          icon: 'none'
-        })
-      }
-    },
-    async handleBindFriend() {
-      try {
-        await bindFriend({ inviteCode: this.friendInviteCode })
-        uni.showToast({
-          title: '绑定成功',
-          icon: 'success'
-        })
-        this.getUserInfo()
-      } catch (error) {
-        uni.showToast({
-          title: error.message || '绑定失败',
-          icon: 'none'
-        })
-      }
-    },
-    handleLogout() {
-      uni.removeStorageSync('token')
-      this.isLoggedIn = false
-      this.userInfo = {}
-      uni.showToast({
-        title: '已退出登录',
-        icon: 'success'
-      })
-    }
+const isLoggedIn = ref(false)
+const userInfo = ref({})
+const friendInviteCode = ref('')
+const formData = reactive({
+  username: '',
+  password: ''
+})
+
+// 检查登录状态
+function checkLoginStatus() {
+  const token = uni.getStorageSync('token')
+  if (token) {
+    isLoggedIn.value = true
+    getUserInfo()
+  } else {
+    isLoggedIn.value = false
   }
 }
+
+// 获取用户信息
+async function getUserInfo() {
+  try {
+    const res = await getUserProfile()
+    userInfo.value = res.data
+  } catch (error) {
+    uni.showToast({
+      title: '获取用户信息失败',
+      icon: 'none'
+    })
+  }
+}
+
+// 处理登录
+async function handleLogin() {
+  try {
+    const res = await login(formData)
+    uni.setStorageSync('token', res.data.token)
+    userInfo.value = res.data.user
+    isLoggedIn.value = true
+    uni.showToast({
+      title: '登录成功',
+      icon: 'success'
+    })
+  } catch (error) {
+    uni.showToast({
+      title: error.message || '登录失败',
+      icon: 'none'
+    })
+  }
+}
+
+// 处理注册
+async function handleRegister() {
+  try {
+    await register(formData)
+    uni.showToast({
+      title: '注册成功，请登录',
+      icon: 'success'
+    })
+  } catch (error) {
+    uni.showToast({
+      title: error.message || '注册失败',
+      icon: 'none'
+    })
+  }
+}
+
+// 处理绑定好友
+async function handleBindFriend() {
+  try {
+    await bindFriend({ inviteCode: friendInviteCode.value })
+    uni.showToast({
+      title: '绑定成功',
+      icon: 'success'
+    })
+    getUserInfo()
+  } catch (error) {
+    uni.showToast({
+      title: error.message || '绑定失败',
+      icon: 'none'
+    })
+  }
+}
+
+// 处理退出登录
+function handleLogout() {
+  uni.removeStorageSync('token')
+  isLoggedIn.value = false
+  userInfo.value = {}
+  uni.showToast({
+    title: '已退出登录',
+    icon: 'success'
+  })
+}
+
+// 页面显示时检查登录状态
+onShow(() => {
+  checkLoginStatus()
+})
 </script>
 
 <style>

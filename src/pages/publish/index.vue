@@ -22,54 +22,49 @@
   </view>
 </template>
 
-<script>
+<script setup>
+import { reactive } from 'vue'
 import { createDio } from '@/api/dio'
 
-export default {
-  data() {
-    return {
-      formData: {
-        duration: '',
-        posture: '',
-        mood: '',
-        remark: ''
-      }
-    }
-  },
-  methods: {
-    async handleSubmit(e) {
-      try {
-        const token = uni.getStorageSync('token')
-        if (!token) {
-          uni.showToast({
-            title: '请先登录',
-            icon: 'none'
-          })
-          setTimeout(() => {
-            uni.navigateTo({
-              url: '/pages/profile/index'
-            })
-          }, 1500)
-          return
-        }
+const formData = reactive({
+  duration: '',
+  posture: '',
+  mood: '',
+  remark: ''
+})
 
-        await createDio(this.formData)
-        uni.showToast({
-          title: '发布成功',
-          icon: 'success'
+// 处理表单提交
+async function handleSubmit(e) {
+  try {
+    const token = uni.getStorageSync('token')
+    if (!token) {
+      uni.showToast({
+        title: '请先登录',
+        icon: 'none'
+      })
+      setTimeout(() => {
+        uni.navigateTo({
+          url: '/pages/profile/index'
         })
-        setTimeout(() => {
-          uni.switchTab({
-            url: '/pages/index/index'
-          })
-        }, 1500)
-      } catch (error) {
-        uni.showToast({
-          title: error.message || '发布失败',
-          icon: 'none'
-        })
-      }
+      }, 1500)
+      return
     }
+
+    await createDio(formData)
+    uni.showToast({
+      title: '发布成功',
+      icon: 'success'
+    })
+    setTimeout(() => {
+      uni.switchTab({
+        url: '/pages/index/index'
+      })
+    }, 1500)
+  } catch (error) {
+    uni.showToast({
+      title: error.message || '发布失败',
+      icon: 'none'
+    })
   }
 }
 </script>

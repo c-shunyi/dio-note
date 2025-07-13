@@ -37,56 +37,61 @@
   </view>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
 import { getDioList } from '@/api/dio'
 
-export default {
-  data() {
-    return {
-      isLoggedIn: false,
-      dioList: []
-    }
-  },
-  onShow() {
-    this.checkLoginStatus()
-  },
-  methods: {
-    checkLoginStatus() {
-      const token = uni.getStorageSync('token')
-      if (token) {
-        this.isLoggedIn = true
-        this.getDioList()
-      } else {
-        this.isLoggedIn = false
-      }
-    },
-    async getDioList() {
-      try {
-        const res = await getDioList()
-        this.dioList = res.data
-      } catch (error) {
-        uni.showToast({
-          title: '获取记录失败',
-          icon: 'none'
-        })
-      }
-    },
-    formatDate(dateStr) {
-      const date = new Date(dateStr)
-      return (`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`)
-    },
-    goToLogin() {
-      uni.switchTab({
-        url: '/pages/profile/index'
-      })
-    },
-    goToPublish() {
-      uni.switchTab({
-        url: '/pages/publish/index'
-      })
-    }
+const isLoggedIn = ref(false)
+const dioList = ref([])
+
+// 检查登录状态
+function checkLoginStatus() {
+  const token = uni.getStorageSync('token')
+  if (token) {
+    isLoggedIn.value = true
+    getDioListData()
+  } else {
+    isLoggedIn.value = false
   }
 }
+
+// 获取DIO列表
+async function getDioListData() {
+  try {
+    const res = await getDioList()
+    dioList.value = res.data.reverse()
+  } catch (error) {
+    uni.showToast({
+      title: '获取记录失败',
+      icon: 'none'
+    })
+  }
+}
+
+// 格式化日期
+function formatDate(dateStr) {
+  const date = new Date(dateStr)
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
+}
+
+// 页面跳转
+function goToLogin() {
+  uni.switchTab({
+    url: '/pages/profile/index'
+  })
+}
+
+function goToPublish() {
+  uni.switchTab({
+    url: '/pages/publish/index'
+  })
+}
+
+// 页面显示时检查登录状态
+onShow(() => {
+  checkLoginStatus()
+})
 </script>
 
 <style>
