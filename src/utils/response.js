@@ -12,7 +12,7 @@
  */
 export function success(data = null, msg = 'success') {
   return {
-    code: '0',
+    code: 0,
     msg,
     data
   };
@@ -25,7 +25,7 @@ export function success(data = null, msg = 'success') {
  * @param {any} data 附加数据
  * @returns {object}
  */
-export function fail(msg = 'fail', code = '1',  data = null) {
+export function fail(msg = 'fail', code = 1,  data = null) {
   return {
     code,
     msg,
