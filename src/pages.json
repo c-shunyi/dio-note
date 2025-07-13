@@ -34,17 +34,17 @@
 			{
 				"pagePath": "pages/index/index",
 				"iconPath": "static/zhuye.png",
-				"selectedIconPath": "static/zhuye-active.png",
+				"selectedIconPath": "static/zhuye-active.png"
 			},
 			{
 				"pagePath": "pages/publish/index",
 				"iconPath": "static/fabu.png",
-				"selectedIconPath": "static/fabu.png",
+				"selectedIconPath": "static/fabu.png"
 			},
 			{
 				"pagePath": "pages/profile/index",
 				"iconPath": "static/wode.png",
-				"selectedIconPath": "static/wode-active.png",
+				"selectedIconPath": "static/wode-active.png"
 			}
 		]
 	}

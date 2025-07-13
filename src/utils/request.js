@@ -1,4 +1,5 @@
-const BASE_URL = 'http://localhost:8810'
+// const BASE_URL = 'http://localhost:8810'
+const BASE_URL = 'https://dio-api.duobao.fun'
 const TIMEOUT = 10000
 
 // 处理请求url
