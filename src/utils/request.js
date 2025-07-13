@@ -24,10 +24,9 @@ function handleConfig(config) {
 
 // 处理响应数据
 function handleResponse(response) {
-  if (response.statusCode !== 200) {
-    const error = new Error(response.data.error || '请求失败')
-    error.statusCode = response.statusCode
-    throw error
+  // 处理状态码
+  if (response.statusCode !== 200 || response.data.code !== 0) {
+    throw new Error(response.data.msg || '请求失败')
   }
   return response.data
 }
